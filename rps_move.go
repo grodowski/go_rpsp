@@ -1,6 +1,7 @@
 package main
 
 import (
+	"errors"
 	"math/rand"
 	"time"
 )
@@ -14,18 +15,14 @@ var prg = rand.New(source)
 
 type RpsMove int
 
-func NewRpsMove(str string) RpsMove {
+func NewRpsMove(str string) (RpsMove, error) {
 	for i, move := range rpsMoves {
 		if move == str {
-			return RpsMove(i)
+			return RpsMove(i), nil
 		}
 		i++
 	}
-	return RpsMove(invalidMove)
-}
-
-func InvalidMove() RpsMove {
-	return RpsMove(invalidMove)
+	return -1, errors.New("INVALID")
 }
 
 func NewComputerRpsMove() RpsMove {
@@ -33,9 +30,5 @@ func NewComputerRpsMove() RpsMove {
 }
 
 func (r RpsMove) String() string {
-	i := int(r)
-	if i == -1 {
-		return "INVALID"
-	}
-	return rpsMoves[i]
+	return rpsMoves[int(r)]
 }

@@ -66,9 +66,9 @@ func (r *RockPaperScissorsHandler) Move(msg string) string {
 	if msg == StatsMessage {
 		return r.formatStats()
 	}
-	userMove := NewRpsMove(msg)
-	if userMove == InvalidMove() {
-		return InvalidMove().String()
+	userMove, err := NewRpsMove(msg)
+	if err != nil {
+		return err.Error()
 	}
 	computerMove := NewComputerRpsMove()
 	return fmt.Sprintf("%s %s", r.Result(userMove, computerMove), computerMove.String())
